@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature and Humidity Dashboard</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Temperature and Humidity Data</h1>
+  <table id="data-table">
+    <tr>
+      <th>Date and Time</th>
+      <th>Temperature (°C)</th>
+      <th>Humidity (%)</th>
+    </tr>
+  </table>
+  <script>
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbwcsFOsXD5Aey8aUQtZJc3fgxsgLoRBg9pvjyh_GI9IQCZLkpqDk4Do9W6Mi4kjEwi68A/exec';
+
+    async function fetchData() {
+      const response = await fetch(sheetUrl);
+      const data = await response.json();
+      const table = document.getElementById('data-table');
+
+      data.forEach(item => {
+        const row = table.insertRow();
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+
+        cell1.textContent = item.date;
+        cell2.textContent = item.temperature;
+        cell3.textContent = item.humidity;
+      });
+    }
+
+    fetchData();
+  </script>
+</body>
+</html>
